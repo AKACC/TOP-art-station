@@ -1,0 +1,142 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+/**
+ *  文章管理模型
+ */
+class Article_model extends CI_Model{
+	/**
+	 * 发表文章
+	 */
+	public function add($data){
+		$this->db->insert('article', $data);
+	}
+
+	/**
+	 * 查看文章
+	 */
+	public function article_category(){
+		$data = $this->db->select('aid,title,cname,time')->from('article')->join('category','article.cid=category.cid')->order_by('aid','desc')->get()->result_array();
+		return $data;
+	}
+    /**
+     * 查询对应文章
+     */
+    public function check_art($aid){
+    	$data = $this->db->where(array('aid'=>$aid))->get('article')->result_array();
+        return $data;
+    }
+
+
+    /**
+     * 栏目名调取
+     */
+    public function cname($aid){
+        $data = $this->db->select('cname')->where(array('cid'=>$cid))->get('category')->result_array();
+        return $data;
+
+    }
+
+
+
+
+	/**
+     * 修改文章 
+     */
+    public function update_art($aid, $data){
+        $this->db->update('article', $data, array('aid'=>$aid));
+    }
+
+    /**
+     * 删除文章
+     */
+    public function del_art($aid){
+        $this->db->delete('article',array('aid'=>$aid));
+    }
+
+
+
+    /**
+     * 首页查询文章
+     */
+    public function check($limit){
+        $data['art'] = $this->db->select('aid,thumb,title,info,img')->order_by('time','desc')->limit($limit)->get_where('article',array('type'=>0))->result_array();
+
+        $data['hot'] = $this->db->select('aid,thumb,title,info,img')->order_by('time','desc')->limit($limit)->get_where('article',array('type'=>1))->result_array();
+
+        return $data;
+    }
+
+
+    /**
+     *  通过栏目调取文章
+     */
+    public function category_article($cid){
+        $data = $this->db->select('aid,img,title,info')->order_by('time','desc')->get_where('article',array('cid'=>$cid))->result_array();
+
+        return $data;
+
+    }
+
+
+    /**
+     * 通过aid 调取文章
+     */
+    public function aid_article($aid){
+        $data = $this->db->join('category','article.cid=category.cid')->join('user','article.ususername=user.ususername')->get_where('article',array('aid'=>$aid))->result_array();
+        return $data;
+    }
+
+    /**
+     *  通过aid 调取栏目
+     */
+    public function aid_cate(){
+        $data = $this->db->select('cid,cname')->get('category')->result_array();
+
+        
+        return $data;
+    } 
+
+
+
+
+    /**
+     *  查看评论
+     */
+    public function article_comment(){
+        $data = $this->db->select('aid,comment,cmtime')->order_by('cmtime','desc')->get('comment')->result_array();
+    
+        return $data;
+             }
+
+    /**
+     *  用户名查看作品
+     */
+    public function user_article($ususername){
+        $data = $this->db->join('category','article.cid=category.cid')->order_by('time','desc')->get_where('article',array('ususername'=>$ususername))->result_array();
+       
+        return $data;
+    }
+    /**
+     *  用户界面查看作品名
+     */
+    public function user_artname($ususername){
+        $data = $this->db->select('title')->order_by('time','desc')->limit(6)->get_where('article',array('ususername'=>$ususername))->result_array();
+       
+        return $data;
+    }
+    /**
+     *  搜索作品名
+     */
+    public function search_title($key){
+        $data = $this->db->like('title',$key,'both')->get('article')->result_array();
+        return $data;
+    }
+
+
+
+
+
+
+}   
+
+
