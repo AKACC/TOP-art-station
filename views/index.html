@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head lang="en">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+
+
+
+ <link href="<?php echo base_url() . 'style/index/'  ?>dist/css/flat-ui.css" rel="stylesheet"> 
+
+<link href="<?php echo base_url() . 'style/index/'  ?>css/bootstrap.min.css" rel="stylesheet">
+ 
+<link href="<?php echo base_url() . 'style/index/'  ?>css/buttons.css" rel="stylesheet" />
+<link href="<?php echo base_url().'style/index/Font-Awesome/css/font-awesome.min.css' ?>" rel="stylesheet" type="text/css" />
+    
+
+</head>
+ <body>
+
+
+<!--导航栏Start-->
+ <div class="navbar-wrapper"  >
+   
+        <nav class="navbar-inverse navbar-embossed navbar-fixed-top " role="navigation">
+          <div class="container">
+            <div class="navbar-header"  >
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                 <span class="icon-bar"></span>
+                 <span class="icon-bar"></span>
+                 <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="<?php echo site_url().'/index/home/index' ?>"><span class="fui-star"></span><strong>最耀站</strong></a>
+            </div>
+            <div class="collapse navbar-collapse " id="navbar"  >
+              <ul class="nav navbar-nav "  >
+                <li><a href="<?php echo site_url().'/index/home/index' ?>" target="all" > 首页</a></li>
+              <?php foreach ($category as $v): ?>
+                <li>
+                  <a  target="all" href="<?php echo site_url().'/index/home/category/' .$v['cid']?>" ><?php echo $v['cname'] ?></a></li>
+              <?php endforeach ?>
+                <li>
+                  <a  href="<?php echo base_url().'/introduction/JUB介绍.pdf' ?>" >关于我们</a>
+                </li> 
+              </ul>
+              <?php if (empty($ususername)): ?>
+              <ul class="nav navbar-nav navbar-right" >
+                <li> <a id="modal-login" href="#login" class="button button-action button-3d " data-toggle="modal" style=" font-weight:bold font-family:'Microsoft YaHei UI' " ><strong><font color="#FFFFFF">登陆</font></strong></a></li>
+                <li><a id="modal-enroll" href="#enroll" class="button button-primary button-3d" data-toggle="modal"style=" font-weight:bold font-family:'Microsoft YaHei UI' "><strong><font color="#FFFFFF">注册</font></strong></a></li>
+                <li><a id="modal-enroll" href="<?php echo site_url().'/admin/login/index' ?>" class="button button-highlight button-3d" data-toggle="modal"style=" font-weight:bold font-family:'Microsoft YaHei UI' "><strong><font color="#FFFFFF">管理员</font></strong></a></li>
+              <?php endif ?>
+              <?php if (!empty($ususername)): ?>
+              <ul class="nav navbar-nav navbar-right" >
+              <li> 
+                 <img src="<?php echo base_url().'user/'.$uthumb ?>"  class="img-circle"  style="width:40px height:40px"/>
+              </li>
+              <li>
+                   <a href="<?php echo site_url('index/userweb/index') ?>"><?php echo $aka ?></a>
+              </li>
+              <li>
+                   <a id="modal-enroll" href="<?php echo site_url('index/uarticle/send_article') ?>" class="button button-highlight button-3d" data-toggle="modal"style=" font-weight:bold font-family:'Microsoft YaHei UI' "><strong><font color="#FFFFFF">发表</font></strong></a>
+              </li>
+              <li>
+                    <li><a id="modal-enroll" href="<?php echo site_url('index/ulogin/ulogin_out') ?>" class="button button-caution button-3d" data-toggle="modal"style=" font-weight:bold font-family:'Microsoft YaHei UI' "><strong><font color="#FFFFFF">退出</font></strong></a>
+              </li>
+              <?php endif ?>
+                <li>
+                    <form class="navbar-form" role="search" action="<?php echo site_url('index/home/search') ?>" method="get">
+                       <div class="form-group">
+                          <input type="search" name="key" class="form-control" placeholder="搜索作品" >
+         
+                             <button type="submit" class="btn"><span class="fui-search"></span></button>
+            
+                       </div>
+                    </form>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+      </div>
+
+    
+    <!--登录掩盖窗体-->
+    <div class="container" >
+    <div class="modal " id="login" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-head">
+                  
+                    <h3 align="center">用户登陆</h3>
+                </div>
+                <form class="form-horizontal" action="<?php echo site_url('index/ulogin/ulogin_in') ?>">
+                <div class="modal-body" align="center">
+                    
+                        <div class="control-group">
+                            <label class="control-label" >用户名</label>
+                            
+                                <input type="text" name="ususername" class="form-control" style="max-width:200px" placeholder="这里输入您的用户名哦！" />
+                            
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" >密码</label>
+                            
+                                <input name="password" type="password"  class="form-control" style="max-width:200px" placeholder="这里输入您的密码哦！" />
+                            
+                        </div>
+                      
+                    
+                </div>
+                <div class="modal-footer">
+                
+                    <button type="submit" id="sub" class="button button-primary" ><strong>登陆</strong></button>
+                   
+                   <a type="button" class="close button button-default" data-dismiss="modal"><strong>取消<i class="fa fa-reply"></i></strong></a>
+                  
+                </div>
+              </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--登录掩盖窗体结束-->
+
+  <!--注册掩盖窗体-->
+
+
+
+ <div class="container">
+      
+    <div class="modal" id="enroll" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-head">
+              
+                    <h3 align="center">新用户注册</h3>
+                </div>
+                 <form class="form-horizontal" name="form1" action="<?php echo site_url('index/user/enroll') ?>" method="POST" enctype="multipart/form-data" onsubmit="return checkForm()" >
+                <div class="modal-body" align="center">
+                   
+                        <div class="control-group">
+                            <label class="control-label" >用户名</label>
+                            <div class="controls">
+                                <input type="text" name="ususername" class="form-control" style="max-width:200px" />
+                              
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" >密码</label>
+                            <div class="controls">
+                                <input type="text" name="password" class="form-control" style="max-width:200px"  >
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" >重复密码</label>
+                            <div class="controls">
+                                <input type="text" name="rpassword" class="form-control" style="max-width:200px" >
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" >昵称</label>
+                            <div class="controls">
+                                <input type="text"  name="aka" class="form-control" style="max-width:200px" >
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" >头像</label>
+                            <div class="controls">
+                                <input type="file" name="upic"  id="inputfile"  >
+                            </div>
+                        </div>
+                    
+                </div>
+                <div class="modal-footer">
+                <a type="button" class="close button button-default" data-dismiss="modal"><strong>取消<i class="fa fa-reply"></i></strong></a>
+                    <button type="submit" class="button button-primary"><strong>注册</strong></button>
+                </div>
+              </form>
+            </div>
+        </div>
+    </div>
+     
+</div>
+
+   
+<!--注册掩盖窗体结束-->
+
+<!--导航栏End-->
+
+<script src="<?php echo base_url() . '/style/index/'  ?>js/jquery-2.1.1.min.js"></script>
+<script src="<?php echo base_url() . '/style/index/'  ?>js/bootstrap.min.js"></script>
+
+<!--
+<script language="javascript">
+
+  function checkForm()
+{
+ if(document.form1.ususername.value=="")
+ {
+  alert("用户名不能空空的哦！");
+  document.form1.ususername.focus();
+  return false;
+ }
+  if(document.form1.ususername.value.length<5)
+ {
+  alert("用户名不能少于5个字！");
+  document.form1.ususername.focus();
+  return false;
+ }
+ if(document.form1.password.value=="")
+ {
+  alert("密码不能空空的哦！");
+  document.form1.password.focus();
+  return false;
+ }
+ if(document.form1.rpassword.value!==document.form1.password.value)
+ {
+  alert("两次密码不相同");
+  document.form1.password.focus();
+  return false;
+ }
+  if(document.form1.aka.value=="")
+ {
+  alert("昵称不能为空！");
+  document.form1.aka.focus();
+  return false;
+ }
+ 
+ if(document.form1.upic.value=="")
+ {
+  alert("头像不能为空！");
+  document.form1.upic.focus();
+  return false;
+ }
+}
+
+</script>
+
+-->
+
